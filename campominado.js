@@ -1,6 +1,7 @@
 const ROWS = 9;
 const COLS = 9;
 const MINES = 9;
+let totalFlagged = 0;
 
 const boardElement = document.getElementById("board");
 console.log("Columns: " + COLS + "\n Rows: " + ROWS);
@@ -33,7 +34,7 @@ function placeMines(){
         if (!board[row][col].mine){
             board[row][col].mine = true;
             place++;
-        }
+        }else{continue;}
     }
 }
 // Function to count adjacent mines for each cell
@@ -64,6 +65,50 @@ function countAdjacentMines() {
         }
     }
 }
+<<<<<<< Updated upstream
+=======
+// Variable to track if the game is over
+let gameOver = false;
+function revealCell(row, col) {
+  if (gameOver) return;
+
+  const cell = board[row][col];
+  if (cell.revealed || cell.flagged) return;
+
+  cell.revealed = true;
+
+  if (cell.mine) {
+    gameOver = true;
+    revealAllMines();
+    return;
+  }
+
+  // Flood fill: an empty cell opens all its neighbors
+  if (cell.adjacent === 0) {
+    for (let dRow = -1; dRow <= 1; dRow++) {
+      for (let dCol = -1; dCol <= 1; dCol++) {
+        if (dRow === 0 && dCol === 0) continue;
+
+        const nRow = row + dRow;
+        const nCol = col + dCol;
+
+        if (nRow < 0 || nRow >= ROWS || nCol < 0 || nCol >= COLS) continue;
+
+        revealCell(nRow, nCol); // the function calls itself
+      }
+    }
+  }
+}
+function revealAllMines() {
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+            if (board[row][col].mine) {
+             board[row][col].revealed = true;
+        }
+        }
+    }
+}
+>>>>>>> Stashed changes
 // Function to render the board in the HTML
 function renderBoard() {
   boardElement.innerHTML = "";
@@ -79,6 +124,7 @@ function renderBoard() {
       if (board[row][col].mine) {
         cell.textContent = "bomba";
         cell.style.fontSize = "1ch";
+<<<<<<< Updated upstream
       } else if (board[row][col].adjacent > 0) {
         cell.textContent = board[row][col].adjacent;
         switch (board[row][col].adjacent) {
@@ -100,13 +146,37 @@ function renderBoard() {
         }
       }
       cell.addEventListener("click", () => {
+=======
+        cell.style.color = "#ff0000";
+      } else if (data.adjacent > 0){
+        cell.textContent = data.adjacent;
+        cell.classList.add(`n${data.adjacent}`);
+      }
+    }else if (data.flagged) {
+        cell.style.fontSize = "1ch";
+        cell.textContent = "flag";
+        cell.style.color = "#00ff00";
+      }
+      cell.addEventListener("click", () =>{
+>>>>>>> Stashed changes
         console.log(`Clicked row ${row}, col ${col}`);
       });
-
+      cell.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        console.log(`Right clicked row ${row}, col ${col}`);
+        if (data.revealed) return; // Don't allow flagging revealed cells
+        data.flagged = !data.flagged;
+        totalFlagged += data.flagged ? 1 : -1;
+        console.log(`Total flagged: ${totalFlagged}`);
+        renderBoard();
+    });
+        
       boardElement.appendChild(cell);
+        }
     }
+    document.getElementById("minasCounter").textContent = "Minas: " + MINES;
+    document.getElementById("bandeirasCounter").textContent = "Bandeiras: " + totalFlagged;
   }
-}
 
 createBoardData();
   placeMines();
