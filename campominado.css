@@ -28,3 +28,20 @@ body {
 .cell:hover {
   background: #aaa;
 }
+.n1 { color: #4a90ff; }
+.n2 { color: #3fa34d; }
+.n3 { color: #e04848; }
+.n4 { color: #2b3a9e; }
+.n5 { color: #9e2b2b; }
+.n6 { color: #2b9e9e; }
+.n7 { color: #9e2b9e; }
+.n8 { color: #2b9e2b; }
+
+.cell.revealed {
+  background: #353535;
+  cursor: default;
+}
+
+.cell.revealed:hover {
+  background: #353535;
+}

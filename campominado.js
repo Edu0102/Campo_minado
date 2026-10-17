@@ -64,6 +64,27 @@ function countAdjacentMines() {
         }
     }
 }
+// Variable to track if the game is over
+let gameOver = false;
+function revealCell(row, col) {
+        if (gameOver) return;
+            const cell = board[row][col];
+        if (cell.revealed || cell.flagged) return;
+                cell.revealed = true;
+        if (cell.mine) {
+    gameOver = true;
+    revealAllMines();
+    }
+}
+function revealAllMines() {
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+            if (board[row][col].mine) {
+             board[row][col].revealed = true;
+        }
+        }
+    }
+}
 // Function to render the board in the HTML
 function renderBoard() {
   boardElement.innerHTML = "";
@@ -71,36 +92,26 @@ function renderBoard() {
 
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
+        const data = board[row][col];
       const cell = document.createElement("button");
       cell.className = "cell";
       cell.dataset.row = row;
       cell.dataset.col = col;
-    // TEMPORARY DEBUG: show mines and numbers
-      if (board[row][col].mine) {
+      if (board[row][col].revealed) {
+        cell.classList.add("revealed");
+      
+      if (data.mine){
         cell.textContent = "bomba";
-        cell.style.fontSize = "1ch";
-      } else if (board[row][col].adjacent > 0) {
-        cell.textContent = board[row][col].adjacent;
-        switch (board[row][col].adjacent) {
-          case 1:
-            cell.style.color = "blue";
-            break;
-          case 2:
-            cell.style.color = "green";
-            break;
-          case 3:
-            cell.style.color = "darkred";
-            break;
-          case 4:
-            cell.style.color = "purple";
-            break;
-          case 5:
-            cell.style.color = "maroon";
-            break;
-        }
+        cell.fontSize = "1ch";
+      } else if (data.adjacent > 0){
+        cell.textContent = data.adjacent;
+        cell.classList.add(`n${data.adjacent}`);
       }
-      cell.addEventListener("click", () => {
+    }
+      cell.addEventListener("click", () =>{
         console.log(`Clicked row ${row}, col ${col}`);
+        revealCell(row, col);
+        renderBoard();
       });
 
       boardElement.appendChild(cell);
