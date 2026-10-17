@@ -36,9 +36,35 @@ function placeMines(){
         }
     }
 }
+// Function to count adjacent mines for each cell
+function countAdjacentMines() {
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+            if (board[row][col].mine) continue;
 
+            let count = 0;
+            // Look at the eight surrounding cells.
+            for (let dRow = -1; dRow <= 1; dRow++) {
+                for (let dCol = -1; dCol <= 1; dCol++) {
+                    if (dRow === 0 && dCol === 0) continue;
 
+                    const nRow = row + dRow;
+                    const nCol = col + dCol;
+                    const isOnBoard =
+                        nRow >= 0 && nRow < ROWS &&
+                        nCol >= 0 && nCol < COLS;
 
+                    if (isOnBoard && board[nRow][nCol].mine) {
+                        count++;
+                    }
+                }
+            }
+
+            board[row][col].adjacent = count;
+        }
+    }
+}
+// Function to render the board in the HTML
 function renderBoard() {
   boardElement.innerHTML = "";
   boardElement.style.gridTemplateColumns = `repeat(${COLS}, 32px)`;
@@ -49,9 +75,29 @@ function renderBoard() {
       cell.className = "cell";
       cell.dataset.row = row;
       cell.dataset.col = col;
-      // TEMPORARY DEBUG: show mines so we can check they're placed
+    // TEMPORARY DEBUG: show mines and numbers
       if (board[row][col].mine) {
-        cell.textContent = "💣";
+        cell.textContent = "bomba";
+        cell.style.fontSize = "1ch";
+      } else if (board[row][col].adjacent > 0) {
+        cell.textContent = board[row][col].adjacent;
+        switch (board[row][col].adjacent) {
+          case 1:
+            cell.style.color = "blue";
+            break;
+          case 2:
+            cell.style.color = "green";
+            break;
+          case 3:
+            cell.style.color = "darkred";
+            break;
+          case 4:
+            cell.style.color = "purple";
+            break;
+          case 5:
+            cell.style.color = "maroon";
+            break;
+        }
       }
       cell.addEventListener("click", () => {
         console.log(`Clicked row ${row}, col ${col}`);
@@ -64,4 +110,5 @@ function renderBoard() {
 
 createBoardData();
   placeMines();
+  countAdjacentMines();
   renderBoard();
