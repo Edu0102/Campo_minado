@@ -4,29 +4,8 @@ body {
   background: #222;
   color: #eee;
 }
-#mainPanel{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: auto;
-    border: 1px solid #444;
-    border-color: #2b3a9e;
-}
-
-.bordaCampo{
-    border: 10px solid #2b2e3f;
-    border-style: double;
-    padding: 50px;
-    border-radius: 10px;
-    background: radial-gradient(circle at 50% 50%, #2b9e61, #222 100%);
-}
 
 #board {
-  border: 4px solid #444;
-  border-color: #2e322e;
-  background: #0c3a22;
   display: grid;
   gap: 2px;
   justify-content: center;
@@ -43,7 +22,6 @@ body {
   color: #222;
   font-size: 30px;
   padding: 0.5px;
- 
   
 }
 
