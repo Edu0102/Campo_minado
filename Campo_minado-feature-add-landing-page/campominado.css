@@ -1,0 +1,170 @@
+/* 
+all the color will be changed
+
+
+cor background darkmode
+fundo #222  letras #eee
+
+
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body{
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  text-align: center;
+  background: #222;
+  color: #eee;
+  height: 100%;
+  margin: 0;
+}
+/*header*/
+header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: teal;
+  padding: 5px;
+}
+#title{
+  text-align: left;
+}
+#menu{
+  text-align: right;
+}
+/*comeca o main*/
+main{
+  flex: 1;
+}
+
+/* game name*/
+.name{
+  background-color: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  padding-top: 20px;
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  letter-spacing: 4px;
+}
+
+
+
+/*botao*/
+.boxBotoes{
+  display: flex;
+  flex-direction: column;
+  opacity: 0.5;
+  gap: 30px;
+  padding: 15px;
+  margin: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnInicial{
+
+  background-color: crimson;
+  border: double teal;
+  color: teal;
+  border-radius: 20px;
+  height: 60px;
+  width: 30%;
+  justify-items: centers;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 5px;
+  transition: all 0.3s ease;
+  font-size: 40px;
+}
+.btnInicial:hover {
+  background-color: rgb(68, 194, 226);
+  transform: scale(1.05);
+}
+/* página campo minado*/
+#mainPanel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    border: 1px solid #444;
+    border-color: #2b3a9e;
+}
+
+.bordaCampo{
+    border: 10px solid #2b2e3f;
+    border-style: double;
+    padding: 50px;
+    border-radius: 10px;
+    background: radial-gradient(circle at 50% 50%, #2b9e61, #222 100%);
+}
+
+#board {
+  border: 4px solid #444;
+  border-color: #2e322e;
+  background: #0c3a22;
+  display: grid;
+  gap: 2px;
+  justify-content: center;
+}
+
+.cell {
+  width: 32px;
+  height: 32px;
+  background: #888;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  color: #222;
+  font-size: 30px;
+  padding: 0.5px;
+}
+
+.cell:hover {
+  background: #aaa;
+}
+
+.cell.revealed {
+  background: #ccc;
+  cursor: default;
+}
+
+.cell.mine {
+  background: #e97878;
+  background-image: url('assets/tntsprite.png');
+  background-size: cover;
+}
+
+.cell.n1 { color: #1f4fc2; }
+.cell.n2 { color: #16753a; }
+.cell.n3 { color: #a01818; }
+.cell.n4 { color: #5d278e; }
+.cell.n5 { color: #6b2b18; }
+
+footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  background-color: #888;
+  padding: 20px;
+  gap: 24px;
+}
+
+.list{
+
+  list-style: none;
+  font-size: 10px;
+}
