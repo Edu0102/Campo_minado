@@ -1,18 +1,184 @@
+/* 
+all the color will be changed
+
+
+cor background darkmode
+fundo #222  letras #eee
+
+
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+html, body{
+  height: 100%;
+}
 body {
+  display: flex;
+  flex-direction: column;
   font-family: sans-serif;
   text-align: center;
   background: #222;
   color: #eee;
+  height: 100%;
+  margin: 0;
+}
+/*header*/
+header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: teal;
+  padding: 20px;
+}
+#title{
+  text-align: left;
+}
+#menu{
+  text-align: right;
+}
+/*header > menu*/
+.dropdown button{
+  background-color: rgb(150, 36, 125);
+  padding: 10px 15px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+}
+/*header > menu > conteudo*/
+.dropdown{
+  display: inline-block;
+  position:relative;
+
+}
+.dropdown a{
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+    background-color: rgb(112, 22, 177);
+    box-shadow: 2px 2px 2px #000000;
+}
+.dropdown .content{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  display:none;
+  overflow: hidden;
+  right: 0;
+  z-index: 10;
+}
+/*hovers do menu*/
+.dropdown:hover .content{
+  display: block;
+}
+.dropdown a:hover{
+  background-color: rgb(27, 59, 59);
+}
+.dropdown:hover .btnMenu{
+  background-color: rgb(27, 59, 59);
+}
+/*comeca o main*/
+main{
+  flex: 1;
+}
+
+/* game name*/
+.name{
+  background-color: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  padding-top: 20px;
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  letter-spacing: 4px;
+}
+
+
+
+/*botao*/
+.boxBotoes{
+  display: flex;
+  flex-direction: column;
+  opacity: 0.5;
+  gap: 30px;
+  padding: 15px;
+  margin: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnInicial{
+  
+  background-color: crimson;
+  border: double teal;
+  color: teal;
+  border-radius: 20px;
+  height: 60px;
+  width: auto;
+  min-width: 200px;
+  justify-items: centers;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 5px;
+  transition: all 0.3s ease;
+  font-size: 40px;
+}
+.btnInicial:hover {
+  background-color: rgb(68, 194, 226);
+  transform: scale(1.05);
+}
+/* página campo minado*/
+.headerJogo{
+  display: flex;
+  background: #16753a;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+.tituloJogo{
+  padding: 10px;
+  flex: 2;
+}
+.btnVoltar{
+  box-sizing: border-box;
+  text-align: left;
+  flex: 3;
+  background-color: #8ea8f0;
+  padding: 5px;
+  text-decoration: none;
+}
+.empty{
+  background-color: #5d278e;
+  opacity: 0 ;
+}
+#minasCounter, #bandeirasCounter{
+  padding: 10px;
+}
+.escrito{
+  display: block;
+  padding: 30px;
+  align-items: top;
+  gap: 30px;
 }
 #mainPanel{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     width: auto;
     border: 1px solid #444;
     border-color: #2b3a9e;
+    height: 100%;
 }
 
 .bordaCampo{
@@ -65,3 +231,18 @@ body {
 .cell.n3 { color: #a01818; }
 .cell.n4 { color: #5d278e; }
 .cell.n5 { color: #6b2b18; }
+
+footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  background-color: #888;
+  padding: 20px;
+  gap: 24px;
+}
+
+.list{
+
+  list-style: none;
+  font-size: 10px;
+}

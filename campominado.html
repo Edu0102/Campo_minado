@@ -8,17 +8,23 @@
         <link rel="stylesheet" href="campominado.css">
     </head>
     <body>
-        <h1>Campo Minado</h1>
-        <div id = mainPanel>
-            <h1 id="dificuldadeSelect">Dificuldade: x</h1>
-             <p id="minasCounter">Minas: x</p>
-             <p id="bandeirasCounter">Bandeiras: x</p>
-            <div class="bordaCampo">
-                 <div id="board">
-                  </div>
-            </div>
+        <div class="headerJogo">
+           <div><a class="btnVoltar" href="">voltar</a></div>
+            <div><h1 class="tituloJogo">Campo Minado</h1></div>
+            <div class="empty">vazio</div>
         </div>
-
+        <div id = mainPanel>
+            <div class="escrito">
+                <h1 id="dificuldadeSelect">Dificuldade: x</h1>
+                <p id="minasCounter">Minas: x</p>
+                <p id="bandeirasCounter">Bandeiras: x</p>
+            </div>
+            <div class="bordaCampo">
+               <div id="board">
+               </div>
+            </div>
+       
+        </div>
         <script src="campominado.js"></script>
     </body>
 
