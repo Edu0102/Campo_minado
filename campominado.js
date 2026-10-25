@@ -99,16 +99,16 @@ function revealCell(row, col) {
 function revealAllMines() {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
-            if (board[row][col].mine) {
-              explosion.play();
-             setTimeout(() => {
-               board[row][col].revealed = true;
-               explosion.play();
-               renderBoard();
-              }, Math.random() * (3000 - 2000) + 2000); // Random delay between 800 and 1000 milliseconds
+              if (board[row][col].mine) {
+                explosion.play();
+                setTimeout(() => {
+                board[row][col].revealed = true;
+                explosion.play();
+                renderBoard();
+                }, Math.random() * (3000 - 2000) + 2000); // Random delay between 800 and 1000 milliseconds
+              }
         }
-        }
-    }
+     }
 }
 // Function to toggle a flag on a cell
 function toggleFlag(row, col) {
@@ -184,6 +184,14 @@ function renderBoard() {
     }
   }
   verifyWin();
+}
+function resetGame(){
+  setTimeout(() =>{
+  gameOver = false;
+  createBoardData();
+  placeMines();
+  countAdjacentMines();
+  renderBoard();},3000)
 }
 
 createBoardData();
