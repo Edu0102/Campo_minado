@@ -145,6 +145,10 @@ function verifyWin(){
     alert("Tu é muito dez venceste, parabéns!");
   }
 }
+/*Function to go from all cells top to bottom, in each cell make a in-to-out Spiral reader, and for each cell that has a mine
+has a 66% chance to connect, up to 2 conecions on a max range of 3 squares for each side - eduardo 28-10-2026*/
+function constelationDrawer(){
+  }
 
 // Function to render the board in the HTML
 function renderBoard() {
