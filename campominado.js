@@ -1,7 +1,6 @@
 const ROWS = 9;
 const COLS = 9;
 const MINES = 10;
-let minesPlaced = 0;
 document.getElementById("minasCounter").textContent = "Minas: "+ MINES;
 let totalFlags = MINES;
 const explosion = new Audio('assets/minecraft-tnt-explosion.mp3');
@@ -27,19 +26,91 @@ function createBoardData() {
         board.push(rowArray);
     }
 }
+//Spiral Algortim to set lines 
+function constellationCalculator(board, maxRingDistance = 3, probability = 0.66) {
+  const stars = [];
+  for (let r = 0; r < ROWS; r++)
+    for (let c = 0; c < COLS; c++)
+      if (board[r][c].mine) stars.push({ row: r, col: c, links: 0 });
+
+  const lines = [];
+  const used = new Set(); // avoids duplicates
+
+  for (const a of stars) {
+    // sort other stars by distance to a
+    const neighbors = stars
+      .filter(b => b !== a)
+      .map(b => ({ b, d: Math.hypot(a.row - b.row, a.col - b.col) }))
+      .filter(n => n.d <= maxRingDistance)
+      .sort((x, y) => x.d - y.d);
+
+    for (const { b } of neighbors) {
+      if (a.links >= 2) break;
+      if (b.links >= 2) continue;
+
+      const key2 = `${Math.min(a.row*COLS+a.col, b.row*COLS+b.col)}-${Math.max(a.row*COLS+a.col, b.row*COLS+b.col)}`;
+      if (used.has(key2)) continue;
+
+      if (Math.random() < probability) {
+        lines.push({ from: a, to: b });
+        used.add(key2);
+        a.links++;
+        b.links++;
+      }
+    }
+  }
+  return { stars, lines };
+}
+// function to draw the lines
+function drawConstellation({ stars, lines }) {
+  const canvas = document.getElementById("sky");
+  const boardRect = boardElement.getBoundingClientRect();
+  const wrapRect = boardElement.parentElement.getBoundingClientRect();
+
+  canvas.style.left = `${boardRect.left - wrapRect.left}px`;
+  canvas.style.top = `${boardRect.top - wrapRect.top}px`;
+  canvas.style.width = `${boardElement.offsetWidth}px`;
+  canvas.style.height = `${boardElement.offsetHeight}px`;
+  canvas.width = boardElement.offsetWidth;
+  canvas.height = boardElement.offsetHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const CELL = 30; // your cell size in px (or measure it)
+  const center = s => ({ x: s.col * CELL + CELL / 2, y: s.row * CELL + CELL / 2 });
+
+  // lines
+  ctx.strokeStyle = "#0000ff";
+  ctx.lineWidth = 1.5;
+  for (const { from, to } of lines) {
+    const a = center(from), b = center(to);
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
+  }
+
+  // stars
+  ctx.fillStyle = "white";
+  for (const s of stars) {
+    const p = center(s);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
 // Function to place mines randomly on the board
-function placeMines(firstRow, firstCol){
+function placeMines(){
     let place = 0;
     while (place < MINES){
         const row = Math.floor(Math.random() * ROWS);
         const col = Math.floor(Math.random() * COLS);
-        const nearFirstClick = Math.abs(row - firstRow) <= 1 && Math.abs(col - firstCol) <= 1;
-        // Only place mines in cells that are empty and outside the first-click area.
-        if (board[row][col].mine || nearFirstClick) continue;
-        board[row][col].mine = true;
-        place++;
+        // Check if the cell already has a mine
+        if (!board[row][col].mine){
+            board[row][col].mine = true;
+            place++;
+        }
     }
-    countAdjacentMines();
 }
 // Function to count adjacent mines for each cell
 function countAdjacentMines() {
@@ -92,9 +163,7 @@ function revealCell(row, col) {
         const nextRow = row + dRow;
         const nextCol = col + dCol;
         if (nextRow >= 0 && nextRow < ROWS && nextCol >= 0 && nextCol < COLS) {
-          if (!board[nextRow][nextCol].mine) {
-            revealCell(nextRow, nextCol);
-          }
+          revealCell(nextRow, nextCol);
         }
       }
     }
@@ -104,11 +173,12 @@ function revealAllMines() {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
               if (board[row][col].mine) {
+                explosion.play();
                 setTimeout(() => {
-                  board[row][col].revealed = true;
-                  explosion.play();
-                  renderBoard();
-                }, Math.random() * 1000 + 2000);
+                board[row][col].revealed = true;
+                explosion.play();
+                renderBoard();
+                }, Math.random() * (3000 - 2000) + 2000); // Random delay between 800 and 1000 milliseconds
               }
         }
      }
@@ -119,11 +189,10 @@ function toggleFlag(row, col) {
 
   const cell = board[row][col];
   if (cell.revealed) return;
-  if (cell.flagged) {
+  if (cell.flagged == true) {
     cell.flagged = false;
     totalFlags++;
-  } else if (totalFlags > 0) {
-    cell.flagged = true;
+  }else {cell.flagged = true;
     totalFlags--;
   }
   renderBoard();
@@ -140,15 +209,10 @@ function verifyWin(){
       }
     }
   }
-  if (revealedCount === ROWS * COLS - MINES){
-    gameOver = true;
-    alert("Tu é muito dez venceste, parabéns!");
+  if (revealedCount == ROWS * COLS - MINES && totalFlags == 0){
+    drawConstellation(constellationCalculator(board));
   }
 }
-/*Function to go from all cells top to bottom, in each cell make a in-to-out Spiral reader, and for each cell that has a mine
-has a 66% chance to connect, up to 2 conecions on a max range of 3 squares for each side - eduardo 28-10-2026*/
-function constelationDrawer(){
-  }
 
 // Function to render the board in the HTML
 function renderBoard() {
@@ -180,10 +244,6 @@ function renderBoard() {
 
       cell.addEventListener("click", () =>{
         console.log(`Clicked row ${row}, col ${col}`);
-        if(!minesPlaced){
-          placeMines(row, col);
-          minesPlaced = true;
-        }
         revealCell(row, col);
         renderBoard();
       });
@@ -199,12 +259,15 @@ function renderBoard() {
   verifyWin();
 }
 function resetGame(){
+  setTimeout(() =>{
   gameOver = false;
-  minesPlaced = 0;
-  totalFlags = MINES;
   createBoardData();
-  renderBoard();
+  placeMines();
+  countAdjacentMines();
+  renderBoard();},3000)
 }
 
 createBoardData();
+  placeMines();
+  countAdjacentMines();
   renderBoard();
