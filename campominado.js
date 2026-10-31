@@ -1,6 +1,7 @@
 const ROWS = 9;
 const COLS = 9;
 const MINES = 10;
+let minesPlaced = 0;
 document.getElementById("minasCounter").textContent = "Minas: "+ MINES;
 let totalFlags = MINES;
 const explosion = new Audio('assets/minecraft-tnt-explosion.mp3');
@@ -27,17 +28,18 @@ function createBoardData() {
     }
 }
 // Function to place mines randomly on the board
-function placeMines(){
+function placeMines(firstRow, firstCol){
     let place = 0;
     while (place < MINES){
         const row = Math.floor(Math.random() * ROWS);
         const col = Math.floor(Math.random() * COLS);
-        // Check if the cell already has a mine
-        if (!board[row][col].mine){
-            board[row][col].mine = true;
-            place++;
-        }
+        const nearFirstClick = Math.abs(row - firstRow) <= 1 && Math.abs(col - firstCol) <= 1;
+        // Only place mines in cells that are empty and outside the first-click area.
+        if (board[row][col].mine || nearFirstClick) continue;
+        board[row][col].mine = true;
+        place++;
     }
+    countAdjacentMines();
 }
 // Function to count adjacent mines for each cell
 function countAdjacentMines() {
@@ -90,7 +92,9 @@ function revealCell(row, col) {
         const nextRow = row + dRow;
         const nextCol = col + dCol;
         if (nextRow >= 0 && nextRow < ROWS && nextCol >= 0 && nextCol < COLS) {
-          revealCell(nextRow, nextCol);
+          if (!board[nextRow][nextCol].mine) {
+            revealCell(nextRow, nextCol);
+          }
         }
       }
     }
@@ -100,12 +104,11 @@ function revealAllMines() {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
               if (board[row][col].mine) {
-                explosion.play();
                 setTimeout(() => {
-                board[row][col].revealed = true;
-                explosion.play();
-                renderBoard();
-                }, Math.random() * (3000 - 2000) + 2000); // Random delay between 800 and 1000 milliseconds
+                  board[row][col].revealed = true;
+                  explosion.play();
+                  renderBoard();
+                }, Math.random() * 1000 + 2000);
               }
         }
      }
@@ -116,10 +119,11 @@ function toggleFlag(row, col) {
 
   const cell = board[row][col];
   if (cell.revealed) return;
-  if (cell.flagged == true) {
+  if (cell.flagged) {
     cell.flagged = false;
     totalFlags++;
-  }else {cell.flagged = true;
+  } else if (totalFlags > 0) {
+    cell.flagged = true;
     totalFlags--;
   }
   renderBoard();
@@ -136,7 +140,8 @@ function verifyWin(){
       }
     }
   }
-  if (revealedCount == ROWS * COLS - MINES && totalFlags == 0){
+  if (revealedCount === ROWS * COLS - MINES){
+    gameOver = true;
     alert("Tu é muito dez venceste, parabéns!");
   }
 }
@@ -171,6 +176,10 @@ function renderBoard() {
 
       cell.addEventListener("click", () =>{
         console.log(`Clicked row ${row}, col ${col}`);
+        if(!minesPlaced){
+          placeMines(row, col);
+          minesPlaced = true;
+        }
         revealCell(row, col);
         renderBoard();
       });
@@ -186,15 +195,12 @@ function renderBoard() {
   verifyWin();
 }
 function resetGame(){
-  setTimeout(() =>{
   gameOver = false;
+  minesPlaced = 0;
+  totalFlags = MINES;
   createBoardData();
-  placeMines();
-  countAdjacentMines();
-  renderBoard();},3000)
+  renderBoard();
 }
 
 createBoardData();
-  placeMines();
-  countAdjacentMines();
   renderBoard();

@@ -1,6 +1,6 @@
 /* 
 all the color will be changed
- comentario
+
 
 cor background darkmode
 fundo #222  letras #eee
@@ -40,49 +40,6 @@ header{
 }
 #menu{
   text-align: right;
-}
-/*header > menu*/
-.dropdown button{
-  background-color: rgb(150, 36, 125);
-  padding: 10px 15px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-}
-/*header > menu > conteudo*/
-.dropdown{
-  display: inline-block;
-  position:relative;
-
-}
-.dropdown a{
-  display: block;
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 20px;
-    background-color: rgb(112, 22, 177);
-    box-shadow: 2px 2px 2px #000000;
-}
-.dropdown .content{
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  display:none;
-  overflow: hidden;
-  right: 0;
-  z-index: 10;
-}
-/*hovers do menu*/
-.dropdown:hover .content{
-  display: block;
-}
-.dropdown a:hover{
-  background-color: rgb(27, 59, 59);
-}
-.dropdown:hover .btnMenu{
-  background-color: rgb(27, 59, 59);
 }
 /*comeca o main*/
 main{
