@@ -1,94 +1,42 @@
-/* 
-all the color will be changed
-
-
-cor background darkmode
-fundo #222  letras #eee
+/*espaço geral*/
+/*
+background: linear-gradient(to bottom, #00033d, #0600ab);
 
 
 */
-
+/*definições globais*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+  font-family: sans-serif;
 }
 html, body{
-  height: 100%;
+  min-height: 100vh;
 }
-body {
+/*container geral com {header,main e footer}*/
+.container{
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #00033d, #0600ab);
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  text-align: center;
-  background: #222;
-  color: #eee;
-  height: 100%;
-  margin: 0;
 }
 /*header*/
-header{
+header, footer{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  background-color: teal;
-  padding: 20px;
+  align-items: center;
+  padding: 15px;
 }
-#title{
-  text-align: left;
-}
-#menu{
-  text-align: right;
-}
-/*header > menu*/
-.dropdown button{
-  background-color: rgb(150, 36, 125);
-  padding: 10px 15px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-}
-/*header > menu > conteudo*/
-.dropdown{
-  display: inline-block;
-  position:relative;
-
-}
-.dropdown a{
-  display: block;
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 20px;
-    background-color: rgb(112, 22, 177);
-    box-shadow: 2px 2px 2px #000000;
-}
-.dropdown .content{
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  display:none;
-  overflow: hidden;
-  right: 0;
-  z-index: 10;
-}
-/*hovers do menu*/
-.dropdown:hover .content{
-  display: block;
-}
-.dropdown a:hover{
-  background-color: rgb(27, 59, 59);
-}
-.dropdown:hover .btnMenu{
-  background-color: rgb(27, 59, 59);
-}
+/*titulo*/
+  .name{
+    color: #932bd0;
+  }
 /*comeca o main*/
 main{
-  flex: 1;
+  min-width: 100%;
+  max-height: 100vh;
 }
-
 /* game name*/
 .name{
   background-color: none;
@@ -102,27 +50,29 @@ main{
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   letter-spacing: 4px;
 }
-
-
-
+.line1, .line2 {
+  height: 2px;
+  background-image: linear-gradient(to right, #AE8625, #f7ef8a, #d2ac47, #edc967);
+  width: 90%;
+  margin: 20px;
+}
 /*botao*/
 .boxBotoes{
   display: flex;
   flex-direction: column;
-  opacity: 0.5;
   gap: 30px;
   padding: 15px;
   margin: 30px;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .btnInicial{
   
-  background-color: crimson;
-  border: double teal;
-  color: teal;
-  border-radius: 20px;
+  background-image: linear-gradient(to right, #bb44ae, #932bd0, #6426a6);
+  border: double white;
+  border-radius: 50px;
   height: 60px;
   width: auto;
   min-width: 200px;
@@ -133,22 +83,20 @@ main{
   transition: all 0.3s ease;
   font-size: 40px;
 }
+
 .btnInicial:hover {
   background-color: rgb(68, 194, 226);
   transform: scale(1.05);
 }
-/* página campo minado*/
-.headerJogo{
+/*extras*//*corrigir!!*/
+.extras{
   display: flex;
-  background: #16753a;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
+  flex-direction: column;
+  align-items: start;
+  padding: 5vh;
 }
-.tituloJogo{
-  padding: 10px;
-  flex: 2;
-}
+/* página campo minado*/
+
 .btnVoltar{
   box-sizing: border-box;
   text-align: left;
@@ -187,6 +135,7 @@ main{
     border-radius: 10px;
     background: radial-gradient(circle at 50% 50%, #2b9e61, #222 100%);
 }
+
 
 #board {
   border: 4px solid #444;
@@ -230,15 +179,6 @@ main{
 .cell.n3 { color: #a01818; }
 .cell.n4 { color: #5d278e; }
 .cell.n5 { color: #6b2b18; }
-
-footer{
-  display: flex;
-  flex-direction: row;
-  justify-content: baseline;
-  background-color: #888;
-  padding: 20px;
-  gap: 24px;
-}
 
 .list{
 
