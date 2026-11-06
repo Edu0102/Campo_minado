@@ -1,6 +1,6 @@
-const ROWS = 9;
-const COLS = 9;
-const MINES = 10;
+let ROWS = 9;
+let COLS = 9;
+let MINES = 10;
 let minesPlaced = 0;
 document.getElementById("minasCounter").textContent = "Minas: "+ MINES;
 let totalFlags = MINES;
