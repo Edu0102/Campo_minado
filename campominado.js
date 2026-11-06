@@ -7,10 +7,18 @@ let totalFlags = MINES;
 const explosion = new Audio('assets/minecraft-tnt-explosion.mp3');
 
 const boardElement = document.getElementById("board");
+
+let board = [];
+//Função para selecionar dificuldade
+function dificuldadeSelect(difr, difc, difmines){
+  COLS = difc;
+  ROWS = difr;
+  MINES = difmines;
 console.log("Columns: " + COLS + "\n Rows: " + ROWS);
 console.log("Total squares: " + (COLS * ROWS));
 console.log("Total mines " + MINES);
-let board = [];
+resetGame();
+}
 // Função para criar os dados do jogo
 function createBoardData() {
     board = [];
